@@ -6,6 +6,8 @@ import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import PersistLogin from "./utils/PersistLogin";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 
 const App = () => {
   return (
@@ -15,6 +17,8 @@ const App = () => {
         <Route element={<PersistLogin />}>
           <Route index element={<Home />} />
           <Route path="map" element={<Map />} />
+          <Route path="about" element={<About />} />
+          <Route path="contact" element={<Contact />} />
           <Route path="profile/:id" element={<Profile />} />
         </Route>
       </Route>
