@@ -24,7 +24,7 @@ export default function AuthInfo() {
       <motion.div
         initial={{ y: "-200%" }}
         animate={{ y: 0, transition: { delay: 0.3 } }}
-        className="w-max relative bg-[#FFFEF2] shadow-amber-md rounded-md p-2"
+        className="w-max relative bg-[#FFFEF2] shadow-emerald-md rounded-md p-2"
       >
         <motion.img
           initial={{ scale: 0 }}
@@ -33,9 +33,9 @@ export default function AuthInfo() {
           alt="bookmark"
           className="w-[70px] absolute -bottom-12 -left-12"
         />
-        <h1 className="text-5xl md:text-6xl lg:text-8xl flex  items-center  cursive md:gap-2 pl-6">
+        <h1 className="font-bold text-5xl md:text-6xl lg:text-8xl flex  items-center  cursive md:gap-2 pl-6">
           Travel
-          <span className="text-amber-500 flex items-center gap-1 ">
+          <span className="text-emerald-900  flex items-center gap-1 ">
             Wander{" "}
           </span>
         </h1>
@@ -53,13 +53,13 @@ const MoreInfo = () => {
     <motion.div
       initial={{ scale: 0 }}
       animate={{ scale: "100%", transition: { delay: 0.5 } }}
-      className="w-max relative bg-[#FFFEF2] shadow-amber-md rounded-md p-4"
+      className="w-max relative bg-[#FFFEF2] shadow-emerald-md rounded-md p-4"
     >
       <div className=" p-2 flex flex-col gap-2 text-xs lg:text-base">
         <div className="w-full md:w-52 flex flex-col gap-1 md:items-start items-center">
           <Link
             to="/signup"
-            className="w-full flex items-center justify-center gap-2  bg-amber-500 rounded-sm shadow-slate-sm text-white px-4 py-2 hover:scale-105 transition-all duration-100"
+            className="w-full flex items-center justify-center gap-2  bg-emerald-900 rounded-sm shadow-slate-sm text-white px-4 py-2 hover:scale-105 transition-all duration-100"
           >
             create an account
             <FaLongArrowAltRight />
@@ -71,7 +71,7 @@ const MoreInfo = () => {
           </div>
           <Link
             to="/login"
-            className="w-full flex items-center justify-center gap-2  bg-amber-500 rounded-sm shadow-slate-sm text-white px-4 py-2 hover:scale-105 transition-all duration-100"
+            className="w-full flex items-center justify-center gap-2  bg-emerald-900 rounded-sm shadow-slate-sm text-white px-4 py-2 hover:scale-105 transition-all duration-100"
           >
             login my account
             <FaLongArrowAltRight />

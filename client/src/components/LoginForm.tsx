@@ -66,9 +66,16 @@ const LoginForm = () => {
         onSubmit={HandleSubmit}
         className="relative w-[300px] flex flex-col items-center  gap-2 bg-[#FFFEF2] rounded-md px-4 py-8 shadow-xl md:shadow-none"
       >
+        <img
+          src="./bookmark.svg"
+          alt="bookmark"
+          className="sm:hidden w-[70px] absolute -top-1 -left-10"
+        />
         <h1 className="text-5xl flex items-center cursive gap-2 mb-4 font-bold">
           Travel
-          <span className="text-amber-500 flex items-center gap-1">Wander</span>
+          <span className="text-emerald-900 flex items-center gap-1">
+            Wander
+          </span>
         </h1>
         <p className="text-red-500 text-xs">{error}</p>
         <span className="flex items-center gap-2 w-full rounded-md bg-slate-50  shadow-xl px-4 py-3">
@@ -110,7 +117,7 @@ const LoginForm = () => {
           Don't have an account?{" "}
           <Link
             to="/signup"
-            className="font-bold text-amber-500 flex items-center gap-1 my-2 hover:underline"
+            className="font-bold text-emerald-900 flex items-center gap-1 my-2 hover:underline"
           >
             Sign up here <FaLongArrowAltRight />
           </Link>
@@ -118,7 +125,7 @@ const LoginForm = () => {
         <button
           disabled={show}
           type="submit"
-          className="bg-slate-950 text-white rounded-sm w-full flex justify-center items-center px-4 py-3 shadow-amber-md "
+          className="bg-slate-950 text-white rounded-sm w-full flex justify-center items-center px-4 py-3 shadow-emerald-md "
         >
           {loading ? (
             <LuLoader2 size="1.5rem" className="animate-spin " />

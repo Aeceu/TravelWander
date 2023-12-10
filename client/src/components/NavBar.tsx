@@ -11,7 +11,7 @@ export const NavBar = () => {
   const logout = useLogOut();
   const mainControls = useAnimation();
   const [show, setShow] = useState(false);
-  const user = AuthStore((state) => state.user);
+  const token = AuthStore((state) => state.token);
 
   const HandleOpen = () => {
     setShow(true);
@@ -37,14 +37,14 @@ export const NavBar = () => {
             to={link.path}
             key={i}
             className={`${
-              path.pathname === link.path && "text-emerald-900 font-bold"
-            }`}
+              path.pathname === link.path && " text-emerald-900 font-bold"
+            } text-sm`}
           >
             {link.name}
           </Link>
         ))}
       </span>
-      {!user ? (
+      {!token ? (
         <div className="flex items-center gap-1">
           <Link
             to={"/login"}
@@ -110,7 +110,7 @@ export const NavBar = () => {
               {link.name}
             </Link>
           ))}
-          {user ? (
+          {!token ? (
             <div className="flex flex-col gap-2">
               <Link
                 to={"/login"}

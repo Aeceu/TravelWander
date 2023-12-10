@@ -74,7 +74,9 @@ export default function SignupForm() {
         />
         <h1 className="text-5xl flex items-center cursive gap-2 mb-4 font-bold">
           Travel
-          <span className="text-amber-500 flex items-center gap-1">Wander</span>
+          <span className="text-emerald-900 flex items-center gap-1">
+            Wander
+          </span>
         </h1>
         <p className="text-red-500 text-xs">{error}</p>
         <span className="flex items-center gap-2 w-full rounded-md bg-slate-50  shadow-xl px-4 py-3">
@@ -162,7 +164,7 @@ export default function SignupForm() {
           Already have an account?{" "}
           <Link
             to="/login"
-            className="font-bold text-amber-500 flex items-center gap-1 my-2 hover:underline"
+            className="font-bold text-emerald-900 flex items-center gap-1 my-2 hover:underline"
           >
             Log in here <FaLongArrowAltRight />
           </Link>
@@ -170,7 +172,7 @@ export default function SignupForm() {
         <button
           disabled={show1}
           type="submit"
-          className="bg-slate-950 text-white rounded-sm w-full flex justify-center items-center px-4 py-3 shadow-amber-md "
+          className="bg-slate-950 text-white rounded-sm w-full flex justify-center items-center px-4 py-3 shadow-emerald-md "
         >
           {loading ? (
             <LuLoader2 size="1.5rem" className="animate-spin " />
