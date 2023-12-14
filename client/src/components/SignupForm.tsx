@@ -12,7 +12,6 @@ export default function SignupForm() {
   const navigate = useNavigate();
   const [error, setError] = useState<string>("");
   const [show1, setShow1] = useState<boolean>(false);
-  const [show2, setShow2] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   const [data, setData] = useState({
@@ -20,13 +19,13 @@ export default function SignupForm() {
     lastname: "",
     email: "",
     password: "",
-    retypePassword: "",
   });
 
   SignupErrorHandler({ data, setError });
 
   const HandleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
     try {
       setLoading(true);
       const res = await axios.post("/signup", {
@@ -52,7 +51,6 @@ export default function SignupForm() {
         lastname: "",
         email: "",
         password: "",
-        retypePassword: "",
       });
     }
   };
@@ -136,30 +134,7 @@ export default function SignupForm() {
             />
           )}
         </span>
-        <span className="flex items-center justify-between gap-2 w-full rounded-md bg-slate-50  shadow-xl px-4 py-3 ">
-          <FaLock />
-          <input
-            value={data.retypePassword}
-            type={show2 ? "text" : "password"}
-            className="outline-none bg-inherit w-full"
-            placeholder="re-type password"
-            id="retypePassword"
-            onChange={(e) => handleChange(e)}
-          />
-          {show2 ? (
-            <FaEyeSlash
-              size="1.3rem"
-              className="cursor-pointer"
-              onClick={() => setShow2(false)}
-            />
-          ) : (
-            <FaEye
-              size="1.3rem"
-              className="cursor-pointer"
-              onClick={() => setShow2(true)}
-            />
-          )}
-        </span>
+
         <h1 className="text-xs flex items-center gap-2">
           Already have an account?{" "}
           <Link

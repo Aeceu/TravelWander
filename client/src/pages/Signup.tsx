@@ -1,13 +1,7 @@
-import AuthInfo from "../components/AuthInfo";
 import SignupForm from "../components/SignupForm";
 
 const Signup = () => {
-  return (
-    <div className="h-screen w-full flex justify-between">
-      <AuthInfo />
-      <SignupForm />
-    </div>
-  );
+  return <SignupForm />;
 };
 
 export default Signup;

@@ -8,6 +8,7 @@ import Signup from "./pages/Signup";
 import PersistLogin from "./utils/PersistLogin";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import AuhtLayout from "./utils/AuthLayout";
 
 const App = () => {
   return (
@@ -24,8 +25,10 @@ const App = () => {
       </Route>
 
       {/* Public Routes */}
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
+      <Route path="/*" element={<AuhtLayout />}>
+        <Route path="login" element={<Login />} />
+        <Route path="signup" element={<Signup />} />
+      </Route>
     </Routes>
   );
 };
