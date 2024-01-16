@@ -1,7 +1,6 @@
 import { FaArrowUpLong } from "react-icons/fa6";
 import { motion, useAnimation, useInView } from "framer-motion";
 import { RefObject, useEffect } from "react";
-import NavStore from "../state/NavStore";
 
 type TProps = {
   divRef: RefObject<HTMLDivElement>;
@@ -10,7 +9,7 @@ type TProps = {
 const BacktoTop = ({ divRef }: TProps) => {
   const isInView = useInView(divRef);
   const mainControl = useAnimation();
-  const handleScroll = NavStore((state) => state.handleScroll);
+
   useEffect(() => {
     if (!isInView) {
       mainControl.start("animate");
@@ -36,7 +35,7 @@ const BacktoTop = ({ divRef }: TProps) => {
       <FaArrowUpLong
         className="text-white "
         size="1.5rem"
-        onClick={() => handleScroll(divRef)}
+        onClick={() => window.scrollTo(0, 0)}
       />
     </motion.div>
   );

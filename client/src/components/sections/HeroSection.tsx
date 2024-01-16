@@ -5,6 +5,8 @@ import SlideUp from "../animation/SlideUp";
 import { useEffect, useRef } from "react";
 import NavStore from "../../state/NavStore";
 import BacktoTop from "../BacktoTop";
+import { NavBar } from "../NavBar";
+import { motion } from "framer-motion";
 
 export const HeroSection = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -21,10 +23,26 @@ export const HeroSection = () => {
   return (
     <div
       ref={ref}
-      className="relative h-[calc(100vh-70px)] w-full flex justify-around items-center p-8"
+      className="relative h-screen w-full flex flex-col justify-around items-center p-4 "
     >
+      <NavBar />
+      <video
+        autoPlay
+        loop
+        muted
+        className="absolute top-0 left-0 object-cover object-center h-screen w-full"
+      >
+        <source src="/vid.mp4" />
+      </video>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1, transition: { delay: 1, duration: 0.7 } }}
+        className="w-full h-full bg-gradient-to-b from-black/10 to-emerald-500/30 z-50 absolute top-0 left-0"
+      />
+
       {ref && <BacktoTop divRef={ref} />}
-      <div className="w-full  h-full flex flex-col  justify-center  items-center md:p-8 gap-4">
+      <div className="z-50 w-full  h-full flex flex-col  justify-center  items-center md:p-8 gap-4">
         <SlideUp
           duration={0.7}
           delay={1}
@@ -33,7 +51,7 @@ export const HeroSection = () => {
           Tailored Travel Experiences for Every Explorer
         </SlideUp>
         <SlideUp
-          className="w-max bold text-4xl md:text-7xl lg:text-8xl text-emerald-900 font-semibold flex flex-col items-center justify-center"
+          className="w-max bold text-4xl md:text-7xl lg:text-8xl text-emerald-500 font-semibold flex flex-col items-center justify-center"
           delay={0.5}
           duration={1}
         >
@@ -55,7 +73,7 @@ export const HeroSection = () => {
           <Popop delay={1.35}>
             <Link
               to="/map"
-              className="rounded-full px-8 py-1 shadow-lg bg-emerald-300 text-emerald-900"
+              className="rounded-full px-8 py-1 shadow-lg bg-emerald-500 text-emerald-900"
             >
               Start Exploring
             </Link>

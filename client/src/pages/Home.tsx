@@ -1,4 +1,3 @@
-import { NavBar } from "../components/NavBar";
 import { HeroSection } from "../components/sections/HeroSection";
 import { AboutSection } from "../components/sections/AboutSection";
 import { GoogleSection } from "../components/sections/GoogleSection";
@@ -9,7 +8,7 @@ import { InfoSection } from "../components/sections/InfoSection";
 const Home = () => {
   return (
     <div className="relative w-full h-full flex flex-col origin">
-      <NavBar />
+      {/* <NavBar /> */}
       <HeroSection />
       <AboutSection />
       <CarSection />

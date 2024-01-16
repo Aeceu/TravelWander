@@ -8,7 +8,7 @@ import { MobileNavLinks } from "./MobileNavLinks";
 export const NavBar = () => {
   const logout = useLogOut();
   return (
-    <nav className="w-full h-[70px] px-8 md:px-16  flex items-center justify-between ">
+    <nav className="w-full h-[70px] px-8 md:px-16  flex items-center justify-between z-[100]">
       <h1 className="text-2xl font-bold flex  items-center   cursive ">
         Travel
         <span className="text-emerald-500 flex items-center gap-1 ">
