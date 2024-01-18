@@ -46,7 +46,7 @@ export const HeroSection = () => {
         <SlideUp
           duration={0.7}
           delay={1}
-          className="font-bold text-emerald-500  text-sm text-center"
+          className="font-bold text-emerald-900  text-sm text-center"
         >
           Tailored Travel Experiences for Every Explorer
         </SlideUp>

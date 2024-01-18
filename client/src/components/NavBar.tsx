@@ -4,9 +4,11 @@ import { useState } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { NavLinks } from "./NavLinks";
 import { MobileNavLinks } from "./MobileNavLinks";
+import { AuthStore } from "../state/AuthStore";
 
 export const NavBar = () => {
   const logout = useLogOut();
+  const { user, token } = AuthStore();
   return (
     <nav className="w-full h-[70px] px-8 md:px-16  flex items-center justify-between z-[100]">
       <h1 className="text-2xl font-bold flex  items-center   cursive ">
@@ -17,13 +19,15 @@ export const NavBar = () => {
       </h1>
       <NavLinks />
 
-      <button
-        onClick={logout}
-        type="button"
-        className="hidden md:flex rounded-full px-8 py-1 shadow-lg  cursor-pointer hover:scale-105 transition-all duration-300 bg-emerald-300 text-emerald-900"
-      >
-        Log out
-      </button>
+      {user && token && (
+        <button
+          onClick={logout}
+          type="button"
+          className="hidden md:flex rounded-full px-8 py-1 shadow-lg  cursor-pointer hover:scale-105 transition-all duration-300 bg-emerald-300 text-emerald-900"
+        >
+          Log out
+        </button>
+      )}
 
       <MobileNav />
     </nav>
@@ -81,6 +85,7 @@ export const MobileNav = () => {
           className="text-emerald-900 cursor-pointer hover:scale-110 transition-all duration-200"
         />
         <MobileNavLinks />
+        {}
         <button
           onClick={logout}
           type="button"

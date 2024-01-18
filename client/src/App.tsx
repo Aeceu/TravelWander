@@ -15,11 +15,11 @@ const App = () => {
     <Routes>
       {/* Private Routes */}
       <Route path="/*" element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="map" element={<Map />} />
+        <Route path="about" element={<About />} />
+        <Route path="contact" element={<Contact />} />
         <Route element={<PersistLogin />}>
-          <Route index element={<Home />} />
-          <Route path="map" element={<Map />} />
-          <Route path="about" element={<About />} />
-          <Route path="contact" element={<Contact />} />
           <Route path="profile/:id" element={<Profile />} />
         </Route>
       </Route>
