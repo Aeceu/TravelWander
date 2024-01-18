@@ -1,3 +1,4 @@
+import { RefObject } from "react";
 import NavStore from "../state/NavStore";
 
 export const MobileNavLinks = () => {
@@ -24,7 +25,7 @@ export const MobileNavLinks = () => {
     },
   ];
 
-  const handleClick = (ref: HTMLDivElement | null) => {
+  const handleClick = (ref: RefObject<HTMLDivElement> | null) => {
     handleScroll(ref);
   };
 
