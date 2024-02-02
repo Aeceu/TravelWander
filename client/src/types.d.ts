@@ -1,4 +1,4 @@
-type TUser = {
+export type TUser = {
   id: string;
   firstname: string;
   lastname: string;
@@ -9,12 +9,12 @@ type TUser = {
   updatedAt: string;
 };
 
-type TLogin = {
+export type TLogin = {
   email: string;
   password: string;
 };
 
-type TSignup = {
+export type TSignup = {
   firstname: string;
   lastname: string;
   email: string;

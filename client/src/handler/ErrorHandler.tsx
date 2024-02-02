@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { TLogin, TSignup } from "../types";
 
 type TLoginErrorHandler = {
   data: TLogin;
