@@ -2,18 +2,21 @@ import { useRef, useState } from "react";
 import {
   useJsApiLoader,
   GoogleMap,
-  Marker,
   Autocomplete,
   DirectionsRenderer,
+  Marker,
 } from "@react-google-maps/api";
 import { LuLoader2, LuSend } from "react-icons/lu";
 import { NavBar } from "../components/NavBar";
+import { getWeather } from "../api/getWeather";
+import { WeatherData } from "../types";
 
 const center = { lat: 14.5764, lng: 121.0851 };
+// const libraries: Libraries = ;
 
 const App = () => {
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyCklK561q6X07wy8Sok0nJCZDPtMBTfgNU",
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_API_KEY,
     libraries: ["places"],
   });
 
@@ -25,9 +28,8 @@ const App = () => {
   const originRef = useRef<HTMLInputElement>(null);
   const destinationRef = useRef<HTMLInputElement>(null);
 
-  if (!isLoaded) {
-    return <LuLoader2 className="animate-spint w-5" />;
-  }
+  const [startWeather, setStartWeather] = useState<WeatherData | null>(null);
+  const [endWeather, setEndWeather] = useState<WeatherData | null>(null);
 
   const calculateRoute = async () => {
     if (originRef.current && destinationRef.current) {
@@ -40,7 +42,6 @@ const App = () => {
     }
 
     const directionsService = new google.maps.DirectionsService();
-
     const results = await directionsService.route({
       origin: originRef.current!.value,
       destination: destinationRef.current!.value,
@@ -50,6 +51,25 @@ const App = () => {
     setDirectionsResponse(results);
     setDistance(results.routes[0].legs[0].distance?.text || "");
     setDuration(results.routes[0].legs[0].duration?.text || "");
+
+    const start_lat = results.routes[0].overview_path[0].lat();
+    const start_lng = results.routes[0].overview_path[0].lng();
+
+    const end_lat =
+      results.routes[0].overview_path[
+        results.routes[0].overview_path.length - 1
+      ].lat();
+    const end_lng =
+      results.routes[0].overview_path[
+        results.routes[0].overview_path.length - 1
+      ].lng();
+
+    await getWeather(start_lat, start_lng).then((res) => {
+      setStartWeather(res);
+    });
+    await getWeather(end_lat, end_lng).then((res) => {
+      setEndWeather(res);
+    });
   };
 
   const clearRoute = () => {
@@ -60,6 +80,9 @@ const App = () => {
     if (destinationRef.current) destinationRef.current.value = "";
   };
 
+  if (!isLoaded) {
+    return <LuLoader2 className="animate-spint w-5" />;
+  }
   return (
     <div className="flex flex-col h-screen w-full">
       <NavBar />
@@ -107,14 +130,6 @@ const App = () => {
               >
                 Calculate
               </button>
-            </div>
-
-            <div className="w-full h-[1px] border-b mt-4" />
-            <p className="text-sm font-bold text-emerald-500">Result</p>
-
-            <div>
-              <h1>Distance: {distance} </h1>
-              <h1>Duration: {duration} </h1>
               <LuSend
                 aria-label="center back"
                 onClick={() => {
@@ -123,11 +138,65 @@ const App = () => {
                 }}
               />
             </div>
+
+            <div className="w-full h-[1px] border-b mt-4" />
+            <p className="text-sm font-bold text-emerald-500">Result</p>
+
+            <div className="flex items-center justify-evenly">
+              <span className="flex flex-col  items-center ">
+                <h1 className=" text-lg font-semibold"> {distance} </h1>
+                <p className=" text-sm text-emerald-500 rounded-b-sm  ">
+                  Distance
+                </p>
+              </span>
+              <span className="flex flex-col  items-center ">
+                <h1 className=" text-lg font-semibold"> {duration} </h1>
+                <p className=" text-sm text-emerald-500 rounded-b-sm  ">
+                  Duration
+                </p>
+              </span>
+            </div>
+
+            {startWeather && (
+              <div className="w-full flex flex-col  p-1 border">
+                <h1 className="text-emerald-500 font-semibold text-sm">
+                  Origin Weather
+                </h1>
+                <div className="flex items-center gap-2 p-2">
+                  <img
+                    src={startWeather?.current.condition.icon}
+                    alt="ic"
+                    className="w-[50px] h-[50px]"
+                  />
+                  <span className="flex items-center gap-2">
+                    <p>{startWeather?.current.condition.text}</p>
+                    <p>{startWeather?.current.temp_c}&deg;c </p>
+                  </span>
+                </div>
+              </div>
+            )}
+            {endWeather && (
+              <div className="w-full flex flex-col  p-1 border">
+                <h1 className="text-emerald-500 font-semibold text-sm">
+                  Destination Weather
+                </h1>
+                <div className="flex items-center gap-2 p-2">
+                  <img
+                    src={endWeather?.current.condition.icon}
+                    alt="ic"
+                    className="w-[50px] h-[50px]"
+                  />
+                  <span className="flex items-center gap-2">
+                    <p>{endWeather?.current.condition.text}</p>
+                    <p>{endWeather?.current.temp_c}&deg;c </p>
+                  </span>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
         <div className="w-3/4 h-full">
-          {/* Google Map Box */}
           <GoogleMap
             center={center}
             zoom={15}
