@@ -1,41 +1,58 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   useJsApiLoader,
   GoogleMap,
   Autocomplete,
   DirectionsRenderer,
   Marker,
+  Libraries,
 } from "@react-google-maps/api";
-import { LuLoader2, LuSend } from "react-icons/lu";
+import { LuLoader2, LuLocateFixed } from "react-icons/lu";
 import { NavBar } from "../components/NavBar";
 import { getWeather } from "../api/getWeather";
 import { WeatherData } from "../types";
+import Result from "../components/Result";
+import MapRoutes from "../components/MapRoutes";
+import MobleMapSideBar from "../components/MobleMapSideBar";
 
-const center = { lat: 14.5764, lng: 121.0851 };
-// const libraries: Libraries = ;
-
+const libraries: Libraries = ["places"];
 const App = () => {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_API_KEY,
-    libraries: ["places"],
+    libraries: libraries,
   });
+  const [show, setShow] = useState(false);
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [directionsResponse, setDirectionsResponse] =
     useState<google.maps.DirectionsResult | null>(null);
+
   const [distance, setDistance] = useState<string>("");
   const [duration, setDuration] = useState<string>("");
+
+  const [coords, setCoords] = useState({ lat: 0, lng: 0 });
   const originRef = useRef<HTMLInputElement>(null);
   const destinationRef = useRef<HTMLInputElement>(null);
+  const mobile_originRef = useRef<HTMLInputElement>(null);
+  const mobile_destinationRef = useRef<HTMLInputElement>(null);
 
+  const [routeIndex, setRouteIndex] = useState(0);
   const [startWeather, setStartWeather] = useState<WeatherData | null>(null);
   const [endWeather, setEndWeather] = useState<WeatherData | null>(null);
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      ({ coords: { latitude, longitude } }) => {
+        setCoords({ lat: latitude, lng: longitude });
+      }
+    );
+  }, []);
 
   const calculateRoute = async () => {
     if (originRef.current && destinationRef.current) {
       if (
-        originRef.current.value === "" ||
-        destinationRef.current.value === ""
+        originRef.current?.value === "" &&
+        destinationRef.current?.value === ""
       ) {
         return;
       }
@@ -46,22 +63,23 @@ const App = () => {
       origin: originRef.current!.value,
       destination: destinationRef.current!.value,
       travelMode: google.maps.TravelMode.DRIVING,
+      provideRouteAlternatives: true,
     });
 
     setDirectionsResponse(results);
-    setDistance(results.routes[0].legs[0].distance?.text || "");
-    setDuration(results.routes[0].legs[0].duration?.text || "");
+    setDistance(results.routes[routeIndex].legs[0].distance?.text || "");
+    setDuration(results.routes[routeIndex].legs[0].duration?.text || "");
 
-    const start_lat = results.routes[0].overview_path[0].lat();
-    const start_lng = results.routes[0].overview_path[0].lng();
+    const start_lat = results.routes[routeIndex].overview_path[0].lat();
+    const start_lng = results.routes[routeIndex].overview_path[0].lng();
 
     const end_lat =
-      results.routes[0].overview_path[
-        results.routes[0].overview_path.length - 1
+      results.routes[routeIndex].overview_path[
+        results.routes[routeIndex].overview_path.length - 1
       ].lat();
     const end_lng =
-      results.routes[0].overview_path[
-        results.routes[0].overview_path.length - 1
+      results.routes[routeIndex].overview_path[
+        results.routes[routeIndex].overview_path.length - 1
       ].lng();
 
     await getWeather(start_lat, start_lng).then((res) => {
@@ -80,19 +98,32 @@ const App = () => {
     if (destinationRef.current) destinationRef.current.value = "";
   };
 
+  const setRoute = (index: number) => {
+    if (directionsResponse) {
+      setRouteIndex(index);
+      setDistance(
+        directionsResponse.routes[index].legs[0].distance?.text || ""
+      );
+      setDuration(
+        directionsResponse.routes[index].legs[0].duration?.text || ""
+      );
+    }
+  };
+
   if (!isLoaded) {
     return <LuLoader2 className="animate-spint w-5" />;
   }
+
   return (
     <div className="flex flex-col h-screen w-full">
       <NavBar />
       <div className="flex  h-full w-full  items-center ">
-        <div className="w-1/4 h-full flex flex-col bg-white ">
+        <div className="hidden md:flex w-1/4 h-[calc(100vh-60px)] overflow-y-auto flex-col justify-start ">
           <div className="bg-emerald-400 h-[50px] shadow-md w-full flex items-center justify-center">
-            <h1 className="font-bold text-white">Set your destination</h1>
+            <h1 className="p-4 font-bold text-white">Set your destination</h1>
           </div>
 
-          <div className="w-full flex flex-col p-4 gap-2">
+          <div className="w-full flex flex-col p-4 border-b ">
             <div className="flex items-center gap-2 w-full">
               <Autocomplete className="w-full flex items-center gap-2">
                 <input
@@ -103,7 +134,11 @@ const App = () => {
                 />
               </Autocomplete>
             </div>
-
+            <div className="w-full  flex items-center text-xs gap-2 p-2 ">
+              <div className="w-full h-[1px] border-b" />
+              to
+              <div className="w-full h-[1px] border-b" />
+            </div>
             <div className="flex items-center gap-2 w-full">
               <Autocomplete className="w-full flex items-center gap-2">
                 <input
@@ -115,7 +150,7 @@ const App = () => {
               </Autocomplete>
             </div>
 
-            <div className="flex items-center justify-end gap-2">
+            <div className="flex items-center justify-end gap-2 pt-2">
               <button
                 type="submit"
                 onClick={clearRoute}
@@ -130,75 +165,41 @@ const App = () => {
               >
                 Calculate
               </button>
-              <LuSend
+              <LuLocateFixed
+                size="1.2rem"
+                className="text-blue-500"
                 aria-label="center back"
                 onClick={() => {
-                  map?.panTo(center);
+                  map?.panTo(coords);
                   map?.setZoom(15);
                 }}
               />
             </div>
-
-            <div className="w-full h-[1px] border-b mt-4" />
-            <p className="text-sm font-bold text-emerald-500">Result</p>
-
-            <div className="flex items-center justify-evenly">
-              <span className="flex flex-col  items-center ">
-                <h1 className=" text-lg font-semibold"> {distance} </h1>
-                <p className=" text-sm text-emerald-500 rounded-b-sm  ">
-                  Distance
-                </p>
-              </span>
-              <span className="flex flex-col  items-center ">
-                <h1 className=" text-lg font-semibold"> {duration} </h1>
-                <p className=" text-sm text-emerald-500 rounded-b-sm  ">
-                  Duration
-                </p>
-              </span>
-            </div>
-
-            {startWeather && (
-              <div className="w-full flex flex-col  p-1 border">
-                <h1 className="text-emerald-500 font-semibold text-sm">
-                  Origin Weather
-                </h1>
-                <div className="flex items-center gap-2 p-2">
-                  <img
-                    src={startWeather?.current.condition.icon}
-                    alt="ic"
-                    className="w-[50px] h-[50px]"
-                  />
-                  <span className="flex items-center gap-2">
-                    <p>{startWeather?.current.condition.text}</p>
-                    <p>{startWeather?.current.temp_c}&deg;c </p>
-                  </span>
-                </div>
-              </div>
-            )}
-            {endWeather && (
-              <div className="w-full flex flex-col  p-1 border">
-                <h1 className="text-emerald-500 font-semibold text-sm">
-                  Destination Weather
-                </h1>
-                <div className="flex items-center gap-2 p-2">
-                  <img
-                    src={endWeather?.current.condition.icon}
-                    alt="ic"
-                    className="w-[50px] h-[50px]"
-                  />
-                  <span className="flex items-center gap-2">
-                    <p>{endWeather?.current.condition.text}</p>
-                    <p>{endWeather?.current.temp_c}&deg;c </p>
-                  </span>
-                </div>
-              </div>
-            )}
           </div>
+
+          {directionsResponse && (
+            <Result
+              distance={distance}
+              duration={duration}
+              endWeather={endWeather}
+              startWeather={startWeather}
+              startAddress={
+                directionsResponse.routes[
+                  routeIndex
+                ].legs[0].start_address.split(",")[1]
+              }
+              endAddress={
+                directionsResponse.routes[routeIndex].legs[0].end_address.split(
+                  ","
+                )[1]
+              }
+            />
+          )}
         </div>
 
-        <div className="w-3/4 h-full">
+        <div className="relative w-full md:w-3/4 h-full">
           <GoogleMap
-            center={center}
+            center={coords}
             zoom={15}
             mapContainerStyle={{ width: "100%", height: "100%" }}
             options={{
@@ -209,12 +210,45 @@ const App = () => {
             }}
             onLoad={(map) => setMap(map as google.maps.Map)}
           >
-            <Marker position={center} />
+            <Marker position={coords} />
             {directionsResponse && (
-              <DirectionsRenderer directions={directionsResponse} />
+              <DirectionsRenderer
+                directions={directionsResponse}
+                routeIndex={routeIndex}
+                options={{
+                  draggable: true,
+                }}
+              />
+            )}
+            {directionsResponse && (
+              <MapRoutes
+                directionsResponse={directionsResponse}
+                routeIndex={routeIndex}
+                setRoute={setRoute}
+              />
             )}
           </GoogleMap>
         </div>
+
+        <MobleMapSideBar
+          distance={distance}
+          duration={duration}
+          endWeather={endWeather}
+          startWeather={startWeather}
+          directionsResponse={directionsResponse}
+          coords={coords}
+          destinationRef={mobile_destinationRef}
+          originRef={mobile_originRef}
+          map={map}
+          routeIndex={routeIndex}
+          show={show}
+          setShow={setShow}
+          setDirectionsResponse={setDirectionsResponse}
+          setDistance={setDistance}
+          setDuration={setDuration}
+          setEndWeather={setEndWeather}
+          setStartWeather={setStartWeather}
+        />
       </div>
     </div>
   );
