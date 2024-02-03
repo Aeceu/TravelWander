@@ -54,15 +54,6 @@ export const MobileNav = () => {
   };
   return (
     <div className="relative flex items-center justify-between md:hidden">
-      <Link
-        to={"/"}
-        className="text-2xl font-bold flex  items-center   cursive "
-      >
-        Travel
-        <span className="text-emerald-500 flex items-center gap-1 ">
-          Wander{" "}
-        </span>
-      </Link>
       {!show && (
         <LuAlignJustify
           onClick={HandleOpen}
