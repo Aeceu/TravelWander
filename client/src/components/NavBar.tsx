@@ -81,7 +81,7 @@ export const MobileNav = () => {
         }}
         initial="hidden"
         animate={mainControls}
-        className={`z-50 origin-top fixed top-0 right-0  bg-emerald-300 text-emerald-900 flex flex-col gap-4 items-center justify-center`}
+        className={`z-[1000] origin-top fixed top-0 right-0  bg-emerald-300 text-emerald-900 flex flex-col gap-4 items-center justify-center`}
       >
         <LuX
           onClick={HandleClose}
