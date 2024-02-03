@@ -5,18 +5,22 @@ import { motion, useAnimation } from "framer-motion";
 import { NavLinks } from "./NavLinks";
 import { MobileNavLinks } from "./MobileNavLinks";
 import { AuthStore } from "../state/AuthStore";
+import { Link } from "react-router-dom";
 
 export const NavBar = () => {
   const logout = useLogOut();
   const { user, token } = AuthStore();
   return (
     <nav className="w-full h-[70px] px-8 md:px-16  flex items-center justify-between z-[100]">
-      <h1 className="text-2xl font-bold flex  items-center   cursive ">
+      <Link
+        to={"/"}
+        className="text-2xl font-bold flex  items-center   cursive "
+      >
         Travel
         <span className="text-emerald-500 flex items-center gap-1 ">
           Wander{" "}
         </span>
-      </h1>
+      </Link>
       <NavLinks />
 
       {user && token && (
@@ -49,7 +53,16 @@ export const MobileNav = () => {
     mainControls.start("hidden");
   };
   return (
-    <div className="relative flex md:hidden">
+    <div className="relative flex items-center justify-between md:hidden">
+      <Link
+        to={"/"}
+        className="text-2xl font-bold flex  items-center   cursive "
+      >
+        Travel
+        <span className="text-emerald-500 flex items-center gap-1 ">
+          Wander{" "}
+        </span>
+      </Link>
       {!show && (
         <LuAlignJustify
           onClick={HandleOpen}
