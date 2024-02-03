@@ -15,7 +15,7 @@ export const ContactSection = () => {
   return (
     <div
       ref={ref}
-      className="w-full h-full bg-emerald-900  p-8 md:px-8 flex flex-col items-center "
+      className="w-full h-full bg-emerald-900  p-4 md:px-8 flex flex-col items-center "
     >
       <div ref={ref} className="w-full  h-full flex flex-col md:flex-row">
         <div className="w-full md:w-1/2 flex flex-col items-center justify-center gap-4 text-white">
@@ -47,7 +47,7 @@ export const ContactSection = () => {
           </div>
         </div>
         <div className="w-full md:w-1/2 h-full flex flex-col items-center justify-center">
-          <form className="w-full p-8 flex flex-col gap-2 text-white">
+          <form className="w-full md:p-8 flex flex-col gap-2 text-white">
             <input
               type="text"
               placeholder="your email here...."
@@ -68,7 +68,7 @@ export const ContactSection = () => {
 
       {/* FOOTER */}
       <div className="border-t border-emerald-500 w-full">
-        <footer className=" text-white p-8">
+        <footer className=" text-white md:p-8">
           <div className="container mx-auto flex flex-col md:flex-row items-center justify-between">
             <div className="mb-4 md:mb-0">
               <h2 className="text-2xl font-bold text-center md:text-left">

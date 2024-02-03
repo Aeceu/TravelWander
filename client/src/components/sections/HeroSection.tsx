@@ -6,7 +6,6 @@ import { useEffect, useRef } from "react";
 import NavStore from "../../state/NavStore";
 import BacktoTop from "../BacktoTop";
 import { NavBar } from "../NavBar";
-import { motion } from "framer-motion";
 
 export const HeroSection = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -32,21 +31,21 @@ export const HeroSection = () => {
         muted
         className="absolute top-0 left-0 object-cover object-center h-screen w-full"
       >
-        <source src="/vid.mp4" />
+        <source src="/vid1.mp4" />
       </video>
 
-      <motion.div
+      {/* <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, transition: { delay: 1, duration: 0.7 } }}
         className="w-full h-full bg-gradient-to-b from-black/10 to-emerald-500/30 z-50 absolute top-0 left-0"
-      />
+      /> */}
 
       {ref && <BacktoTop divRef={ref} />}
       <div className="z-50 w-full  h-full flex flex-col  justify-center  items-center md:p-8 gap-4">
         <SlideUp
           duration={0.7}
           delay={1}
-          className="font-bold text-emerald-900  text-sm text-center"
+          className="font-bold text-emerald-100  text-sm text-center"
         >
           Tailored Travel Experiences for Every Explorer
         </SlideUp>
@@ -61,10 +60,10 @@ export const HeroSection = () => {
         <SlideUp
           delay={0.7}
           duration={1}
-          className="text-slate-950 w-full md:w-3/4 text-sm md:text-base text-center"
+          className="text-emerald-100 w-full md:w-3/4 text-sm md:text-base text-center"
         >
           Embark on a journey fueled by curiosity and passion.{" "}
-          <i className="text-emerald-900 font-bold ">TravelWander </i>
+          <i className="text-emerald-100 font-bold "> TravelWander </i>
           invites you to explore with intensity, embracing the thrill of every
           adventure with unstoppable wanderlust.
         </SlideUp>

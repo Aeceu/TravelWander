@@ -35,14 +35,17 @@ const MapRoutes: React.FC<MapRoutesProps> = ({
   return (
     <div
       className={`${
-        show ? "p-4" : "p-2"
-      } rounded-md absolute top-4 right-4 bg-white text-slate-950 shadow-xl border flex flex-col gap-2 z-[999] transition-all duration-300`}
+        show ? "p-4" : "p-2 hover:scale-105"
+      } rounded-md absolute top-4 right-4 bg-white text-slate-950 shadow-xl border flex flex-col gap-2 z-40 transition-all duration-300`}
     >
       <span className="flex justify-end">
         {show ? (
           <LuX className="cursor-pointer" onClick={() => setShow(!show)} />
         ) : (
-          <h1 className="text-xs cursor-pointer" onClick={() => setShow(!show)}>
+          <h1
+            className="text-xs cursor-pointer "
+            onClick={() => setShow(!show)}
+          >
             View Routes
           </h1>
         )}
