@@ -22,7 +22,7 @@ export const HeroSection = () => {
   return (
     <div
       ref={ref}
-      className="relative h-screen w-full flex flex-col justify-around items-center p-4 "
+      className="relative overflow-hidden h-screen w-full flex flex-col justify-around items-center p-4 "
     >
       <NavBar />
       <video

@@ -20,7 +20,10 @@ export const AboutSection = () => {
         alt="map"
         className="object-cover object-center h-[500px] w-full"
       />
-      <div ref={ref} className="p-8 md:px-8 flex md:flex-row flex-col">
+      <div
+        ref={ref}
+        className="overflow-hidden p-8 md:px-8 flex md:flex-row flex-col"
+      >
         <AppearOnView
           delay={0.5}
           duration={0.5}
