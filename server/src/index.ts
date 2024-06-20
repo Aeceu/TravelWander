@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import express from "express";
 import cookieParser from "cookie-parser";
 import AuthRoutes from "./routes/AuthRoutes";
+import { PrismaClient } from "@prisma/client";
 
 dotenv.config();
 const app = express();
@@ -10,7 +11,7 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://192.168.76.139:5173"],
+    origin: "https://travel-wander.vercel.app",
     credentials: true,
   })
 );

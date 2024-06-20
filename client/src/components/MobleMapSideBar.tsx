@@ -127,12 +127,12 @@ const MobleMapSideBar: React.FC<MobleMapSideBarProps> = ({
       animate={mainControls}
       className={`md:hidden overflow-y-auto  absolute bottom-0 w-full h-4 bg-white rounded-t-lg shadow-xl flex flex-col items-center `}
     >
-      <div className="relative bg-emerald-400 h-[50px] shadow-md w-full flex items-center justify-center">
+      <div
+        onClick={showSection}
+        className="relative bg-emerald-400 h-[50px] shadow-md w-full flex items-center justify-center"
+      >
         <div className="w-full flex justify-center absolute top-0">
-          <div
-            onClick={showSection}
-            className="cursor-pointer hover:bg-slate-600 hover:scale-105 duration-300 transition-all mt-1 w-1/2 h-1 bg-slate-500 rounded-full"
-          />
+          <div className="cursor-pointer hover:bg-slate-600 hover:scale-105 duration-300 transition-all mt-1 w-1/2 h-1 bg-slate-500 rounded-full" />
         </div>
         <h1 className="p-4 font-bold text-white">Set your destination</h1>
       </div>
